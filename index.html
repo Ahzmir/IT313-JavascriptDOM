@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Writing DOM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-screen flex items-center justify-center bg-gray-100">
+
+<div id="app"></div>
+
+<script>
+    const app = document.getElementById('app');
+
+    const form = document.createElement('form');
+    form.className = 'max-w-md w-full bg-white p-6 rounded-lg shadow-md';
+
+    const inputs = [
+        { type: 'text', placeholder: 'First Name', name: 'firstName' },
+        { type: 'text', placeholder: 'Last Name', name: 'lastName' },
+        { type: 'email', placeholder: 'Email Address', name: 'email' },
+        { type: 'password', placeholder: 'Password', name: 'password' },
+        { type: 'password', placeholder: 'Confirm Password', name: 'confirmPassword' }
+    ];
+
+    inputs.forEach(attr => {
+        const input = document.createElement('input');
+        Object.assign(input, { ...attr, required: true });
+        input.className = 'w-full p-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-500';
+        form.appendChild(input);
+    });
+
+    const emailWarning = document.createElement('div');
+    emailWarning.className = 'text-red-500 text-sm mb-4 hidden';
+    emailWarning.textContent = 'Invalid email format!';
+    form.querySelector('input[type="email"]').addEventListener('input', function(e) {
+        emailWarning.classList.toggle('hidden', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.target.value));
+    });
+    form.appendChild(emailWarning);
+
+    const submitButton = document.createElement('button');
+    submitButton.textContent = 'Register';
+    submitButton.className = 'w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600';
+    form.appendChild(submitButton);
+
+    app.appendChild(form);
+</script>
+
+</body>
+</html>
